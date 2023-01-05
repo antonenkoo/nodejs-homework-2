@@ -38,6 +38,7 @@ const removeContact = async (contactId) => {
 
 const updateContact = async (contactId, body) => {
   const contacts = await listContacts();
+  console.log("contact id =>", contactId, "body =>", body);
   const contact = contacts.find((contact) => contact.id === String(contactId));
   if (!contact) {
     return null;
