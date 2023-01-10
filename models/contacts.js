@@ -4,7 +4,6 @@ const fs = require("fs/promises");
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DB_HOST);
-// console.log(mongoose);
 
 async function listContacts() {
   const contactsRaw = await fs.readFile("./models/contacts.json", "utf8");

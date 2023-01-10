@@ -1,15 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const process = require("node:process");
 mongoose.set("strictQuery", false);
 
 require("dotenv").config();
 
 const app = express();
 
-// parse application/json
 app.use(express.json());
-// cors
 app.use(cors());
 
 const routerApi = require("./routes/api/routing");
@@ -26,6 +25,11 @@ connection
       console.log(`Database connection successful on port: ${PORT}`);
     });
   })
-  .catch((err) =>
-    console.log(`Database connection failed. Error message: ${err.message}`)
-  );
+  .catch((err) => {
+    process.on("exit", function () {
+      return console.log(
+        `Database connection failed. Error message: ${err.message}`
+      );
+    });
+    process.exit(1);
+  });
