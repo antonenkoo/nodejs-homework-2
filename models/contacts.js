@@ -1,5 +1,10 @@
 const fs = require("fs/promises");
-const nanoid = require("nanoid");
+// const nanoid = require("nanoid");
+
+const mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.DB_HOST);
+// console.log(mongoose);
 
 async function listContacts() {
   const contactsRaw = await fs.readFile("./models/contacts.json", "utf8");
@@ -14,7 +19,7 @@ const getContactById = async (contactId) => {
 
 const addContact = async (body) => {
   const contacts = await listContacts();
-  const newContact = { id: nanoid.nanoid(), ...body };
+  const newContact = { id: Math.floor(Math.random() * 999), ...body };
   const updatedContacts = [...contacts, newContact];
   fs.writeFile("./models/contacts.json", JSON.stringify(updatedContacts));
   return newContact;
